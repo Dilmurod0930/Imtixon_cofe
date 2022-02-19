@@ -180,14 +180,33 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    FloatingActionButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => SahifaIkki()));
-                      },
-                      child: const Icon(Icons.arrow_forward),
-                      backgroundColor: const Color(0xFF324A59),
-                    )
+                    FElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: ConsColors.EButton,
+                    fixedSize: const Size(325, 50),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30)))),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    String email = _emailController.text.trim().toLowerCase();
+                    String password = _passwordController.text.trim();
+
+                    for (var i = 0; i < Userdata.users.length; i++) {
+                      if (Userdata.users[i].email == email &&
+                          Userdata.users[i].password == password) {
+                        Userdata.currentUser = Userdata.users[i];
+                        Navigator.pushReplacementNamed(context, '/home',
+                            arguments: Userdata.users[i].name);
+                      }
+                    }
+                  }
+                },
+                child: Text(
+                  "Log in",
+                  style: TextStyle(
+                      fontSize: FontsizeConst.SmallSize, color: Colors.white),
+                ),
+              ),
                   ],
                 ),
               ),
